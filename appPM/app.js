@@ -49,6 +49,7 @@ app.get('/project/edit/:id', project.edit); //Edit selected project form
 app.post('/project/edit/:id', project.doEdit); //Edit selected project action
 app.get('/project/delete/:id', project.confirmDelete); //Delete selected product form
 app.post('/project/delete/:id', project.doDelete); //Delete selected project action 
+app.get('/project/byuser/:userid', project.byUser); //Projects created by a user
 
 
 
