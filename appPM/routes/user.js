@@ -1,6 +1,12 @@
 var mongoose = require("mongoose");
 var User = mongoose.model('User');
 
+var clearSession = function(req, res, callback){
+    req.session.user = {};
+    req.session.loggedIn = "";
+    callback();
+};
+
 /*
 var newUser = new User({
     name: 'Simon Holmes',
@@ -14,7 +20,7 @@ newUser.save(function(err, user){
        console.log('Saved user name: ' + user.name);
        console.log('_id of saved user: ' + user._id);
    } 
-});*/
+});  */
 
 //GET user creation form
 exports.create = function(req, res){
@@ -84,8 +90,8 @@ exports.doLogin = function(req, res){
                         "email": user.email,
                         "_id": user._id
                     };
-                    req.session.loggedIn = "true";
-                    console.log('Logged in user: ' + user);
+                    req.session.loggedIn = true;
+                    console.log('Logged in user: ' + user );
                     res.redirect('/user');
                 }
             } else {
@@ -96,4 +102,11 @@ exports.doLogin = function(req, res){
       res.redirect('/login?404=error');
   }
 };
+
+//GET user logout
+exports.doLogout = function(req, res){
+    clearSession(req, res, function(){
+        res.redirect('/') ;
+    });
+}
 

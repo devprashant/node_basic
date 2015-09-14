@@ -3,7 +3,7 @@ var Project = mongoose.model('Project');
 
 //GET project creation form
 exports.create = function(req, res){
-    if(res.session.loggedIn === true){
+    if(req.session.loggedIn === true){
      res.render('project-form', {
         title: 'Create Project',
         userid: req.session.user._id,
@@ -30,7 +30,7 @@ exports.doCreate = function(req, res) {
         } else {
             console.log("Project created and saved: " + project);
             console.log("project._id= " + project._id );
-            res.redirect( '/project')
+            res.redirect( '/project/' + project._id);
         }
             
     });
@@ -53,4 +53,33 @@ exports.byUser = function(req, res){
             });
     }
 }
+
+//GET project info
+exports.displayInfo = function(req, res){
+    console.log("Finding project _id: " + req.params.id);
+    if (req.session.loggedIn != true){
+        res.redirect('/login');
+    } else {
+        if (req.params.id){
+            Project.findById(req.params.id, function(err, project){
+               if(err){
+                   console.log(err);
+                   res.redirect('/user?404=project');
+               } else {
+                   console.log(project);
+                   res.render('project-page', {
+                       title: project.projectName,
+                       projectName: project.projectName,
+                       tasks: project.tasks,
+                       createdBy: project.createdBy,
+                       projectID: req.params.id
+                   });
+               }
+            });
+        } else {
+            res.redirect('/user');
+        }
+    }
+};
+
 
