@@ -32,7 +32,7 @@ app.get('/', routes.index);
 app.get('/user', user.index); //Current user profile
 app.get('/user/new', user.create); // Create a new user form
 app.post('/user/new', user.doCreate); // Create a new user action
-app.get('user/edit', user.edit); //Edit current user form
+app.get('/user/edit', user.edit); //Edit current user form
 app.post('/user/edit', user.doEdit); //Edit current user actiion
 app.get('/user/delete', user.confirmDelete); //delete current user form
 app.post('/user/delete', user.doDelete); //Delete current user action
